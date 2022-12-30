@@ -254,3 +254,65 @@ Change <yourserverip> to the right value...
 http://<yourserverip>:6080/vnc.html?host=<yourserverip>&port=6080
 ```
 
+# Install KStar, Ekos and INDI
+
+Using the commands from the INDI Website, do the following:
+
+```bash
+# Add INDI Repo to this system
+sudo apt-add-repository ppa:mutlaqja/ppa
+
+# Update this system with INDI Repo Indexes
+sudo apt-get update
+
+# Install INDI Drivers and such
+sudo apt-get install indi-full gsc
+
+# Install Ekos and KStars
+sudo apt-get install kstars-bleeding
+```
+
+# PHD2
+
+To install PHD2 on the system. The "Launchpad" or PPA site needs to be added and registered. Then it is 
+a simple apt-get install.
+
+```bash
+# It will prompt you and you will need to read
+sudo add-apt-repository ppa:pch/phd2
+
+sudo apt update
+
+sudo apt-get install phd2
+```
+
+# Post Installation
+
+Once all of the software is installed and before the first shoot, there are a few more things that could 
+be done:
+
+## Turn off screen-saver and privacy settings
+
+These systems will just sit for hours on end with the user just glancing at it to see if it is still running.
+If screen savers and power saving are turned on, it could mess with the obseravability of the system and 
+crash the imaging session.
+
+- From the Ubuntu desktop, choose "Settings" from the drop down menu in the upper right (by the power button).
+- Select "Privacy" from the left
+- Select "Screen" from the left
+- Choose:
+  - Blank Screen Delay: Never
+  - Automatic Screen Lock: Off
+  - Lock Screen on Suspend: Off
+  - Show Notifications on Lock Screen: Off
+
+Back up to the main menu and:
+- Select "Power" from the left
+- Choose the following:
+  - Balanced
+  - Screen Blank: Never
+  - Automatic Suspend: Off
+  - Power Button Behavior: Power Off
+
+
+
