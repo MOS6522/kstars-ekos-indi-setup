@@ -315,4 +315,64 @@ Back up to the main menu and:
   - Power Button Behavior: Power Off
 
 
+# Fixing USB 3 Slowness
+
+USB 3 can be finicky on Linux. When having problems with slow transfer speeds, the first thing to look at
+is if the USB 3 Hub is even loaded. Using a command like "lsusb", check to see if there is a USB 3 hub
+attached:
+
+```bash
+lsusb
+
+# Example Output
+# Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+# Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+```
+
+If there is no USB 3 hub listed, then there is a problem with the drivers and detection of the onboard
+device. 
+
+If the USB 3 hub is seen, but there is still slow performance, double check that XHCI is used for the
+device when it is plugged in. To check this...
+
+```bash
+# Un-plug the camera or device and wait a moment
+# Now, plug in the device and wait a moment
+# Run the following
+sudo dmesg
+
+```
+
+The end of the messages should look like and there should an entry for the device that says "xhci_hcd" as the 
+device type.
+
+```
+[  702.897142] usb 2-2.4.1: USB disconnect, device number 4
+[  707.154521] usb 1-2.4.1: new high-speed USB device number 9 using xhci_hcd
+[  707.255601] usb 1-2.4.1: New USB device found, idVendor=1618, idProduct=c183, bcdDevice= 1.00
+[  707.255618] usb 1-2.4.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[  707.255624] usb 1-2.4.1: Product: WestBridge
+[  707.255629] usb 1-2.4.1: Manufacturer: Cypress
+[  707.255634] usb 1-2.4.1: SerialNumber: 000000000000
+[  707.439265] usb 1-2.4.1: USB disconnect, device number 9
+[  707.770734] usb 2-2.4.1: new SuperSpeed USB device number 5 using xhci_hcd
+[  707.791441] usb 2-2.4.1: LPM exit latency is zeroed, disabling LPM.
+[  707.792129] usb 2-2.4.1: New USB device found, idVendor=1618, idProduct=c184, bcdDevice= 0.00
+[  707.792141] usb 2-2.4.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[  707.792147] usb 2-2.4.1: Product: Q183-Cool
+[  707.792151] usb 2-2.4.1: Manufacturer: QHYCCD
+```
+
+Finally, if all else fails...
+
+Change the order of the devices on the hub. For some reason, this works. For example. If there is a mouse in
+one port and the hub for all of the other devices in the other, swap them. If the camera is in the middle
+of the port, move it to one end or the other.
+
+Other tricks...
+
+Plug each device in, one by one, into a port directly on the mother board. Setup a profile to test that
+device. This usually happens with cameras, so just setup a profile in INDI/Ekos with just a Telescope 
+Simulator and the camera. Start it and test it. If it is fast, keep adding and changing until it isn't.
 
